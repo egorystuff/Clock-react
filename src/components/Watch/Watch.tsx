@@ -1,25 +1,36 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
+
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Box from "@mui/material/Box";
+
 import { AppContext } from "../../App";
+import moment from "moment";
+import "moment/locale/ru";
 
 export const Watch: React.FC = () => {
-  const { time, setTime, addTime, setAddTime } = useContext(AppContext);
+  const { time, setTime, addHour, setAddHour } = useContext(AppContext);
+
+  // const date1 = new Date();
+  // console.log(date1);
+
+  const deg: number = 6;
+
+  const hourRef = useRef<HTMLDivElement>(null);
+  const minuteRef = useRef<HTMLDivElement>(null);
+  const secondRef = useRef<HTMLDivElement>(null);
+
+  let hh: number = time.getHours() * 30 + addHour;
+  let mm: number = time.getMinutes() * deg;
+  let ss: number = time.getSeconds() * deg;
 
   // Update the time every second
   useEffect(() => {
-    const deg: number = 6;
-    const hr = document.querySelector("#hr") as HTMLButtonElement | null;
-    const mn = document.querySelector("#mn") as HTMLButtonElement | null;
-    const sc = document.querySelector("#sc") as HTMLButtonElement | null;
-
     const interval = setInterval(() => {
-      let hh: number = time.getHours() * 30 + addTime;
-      let mm: number = time.getMinutes() * deg;
-      let ss: number = time.getSeconds() * deg;
-
-      if (hr !== null) hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-      if (mn !== null) mn.style.transform = `rotateZ(${mm}deg)`;
-      if (sc !== null) sc.style.transform = `rotateZ(${ss}deg)`;
+      if (hourRef.current !== null) hourRef.current.style.transform = `rotateZ(${hh + mm / 12}deg)`;
+      if (minuteRef.current !== null) minuteRef.current.style.transform = `rotateZ(${mm}deg)`;
+      if (secondRef.current !== null) secondRef.current.style.transform = `rotateZ(${ss}deg)`;
       setTime(new Date());
     }, 100);
 
@@ -27,41 +38,46 @@ export const Watch: React.FC = () => {
     return () => clearInterval(interval);
   }, [time]);
 
-  const hours: number = time.getHours();
-  const minutes: number = time.getMinutes();
-  const seconds: number = time.getSeconds();
-
-  const timeString: string = `${hours}:${minutes}:${seconds}`;
+  const timeString: string = moment().format("LTS");
+  const dateString: string = moment().format("LL");
 
   const handleChangeTime = (data: number) => {
-    setAddTime(addTime + data);
+    setAddHour(addHour + data);
   };
 
   return (
     <>
       <div className={styles.clock}>
         <div className={styles.hour}>
-          <div className={styles.hr} id='hr'></div>
+          <div ref={hourRef} className={styles.hr} id='hr'></div>
         </div>
 
         <div className={styles.min}>
-          <div className={styles.mn} id='mn'></div>
+          <div ref={minuteRef} className={styles.mn} id='mn'></div>
         </div>
 
         <div className={styles.sec}>
-          <div className={styles.sc} id='sc'></div>
+          <div ref={secondRef} className={styles.sc} id='sc'></div>
         </div>
       </div>
-      <p style={{ color: "white" }}>{timeString}</p>
+      <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
+      <h2 style={{ color: "#1976d2" }}>{dateString}</h2>
 
-      <button onClick={() => handleChangeTime(30)}>plus 1 hour</button>
-      <br />
-
-      <button onClick={() => setAddTime(0)}>origin time</button>
-
-      <br />
-
-      <button onClick={() => handleChangeTime(-30)}>minus1 hour</button>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          "& > *": {
+            m: 1,
+          },
+        }}>
+        <ButtonGroup size='large' variant='text' aria-label='text button group'>
+          <Button onClick={() => handleChangeTime(30)}>+ Hour</Button>
+          <Button onClick={() => setAddHour(0)}>Origin</Button>
+          <Button onClick={() => handleChangeTime(-30)}>- Hour</Button>
+        </ButtonGroup>
+      </Box>
     </>
   );
 };

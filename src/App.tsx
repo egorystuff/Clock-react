@@ -8,11 +8,11 @@ export const AppContext = createContext<any>("");
 
 function App() {
   const [time, setTime] = useState<Date>(new Date());
-  const [addTime, setAddTime] = useState<number>(0);
+  const [addHour, setAddHour] = useState<number>(0);
 
   return (
     <>
-      <AppContext.Provider value={{ time, setTime, addTime, setAddTime }}>
+      <AppContext.Provider value={{ time, setTime, addHour, setAddHour }}>
         <Routes>
           <Route path='/' element={<Home />} />
         </Routes>

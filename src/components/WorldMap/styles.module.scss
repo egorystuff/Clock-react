@@ -1,0 +1,10 @@
+.map {
+  display: flex;
+  width: 1280px;
+  height: 640px;
+  justify-content: center;
+  align-items: center;
+  background: url(https://momentjs.com/static/img/world.png);
+  // background-color: #4e7cad;
+  border: 2px solid #4e7cad;
+}
