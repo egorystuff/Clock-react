@@ -6,21 +6,29 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
 
 import { AppContext } from "../../App";
-import moment from "moment";
+import moment from "moment-timezone";
 import "moment/locale/ru";
 
 export const Watch: React.FC = () => {
-  const { time, setTime, addHour, setAddHour } = useContext(AppContext);
+  const { time, setTime, addHour, setAddHour, zone, setZone } = useContext(AppContext);
 
   // const date1 = new Date();
   // console.log(date1);
 
+  // const allZone = moment.tz.names();
+  // console.log(allZone);
+
+  let momentOne = moment();
+
+  // momentOne.zone(180);
+  // console.log("Timezone Offset of MomentOne:", momentOne.zone());
+  console.log("MomentOne is:", momentOne);
+
+  const hourRef = useRef<HTMLDivElement | null>(null);
+  const minuteRef = useRef<HTMLDivElement | null>(null);
+  const secondRef = useRef<HTMLDivElement | null>(null);
+
   const deg: number = 6;
-
-  const hourRef = useRef<HTMLDivElement>(null);
-  const minuteRef = useRef<HTMLDivElement>(null);
-  const secondRef = useRef<HTMLDivElement>(null);
-
   let hh: number = time.getHours() * 30 + addHour;
   let mm: number = time.getMinutes() * deg;
   let ss: number = time.getSeconds() * deg;
@@ -39,6 +47,7 @@ export const Watch: React.FC = () => {
   }, [time]);
 
   const timeString: string = moment().format("LTS");
+  const timeZone = moment.tz(time, zone).format();
   const dateString: string = moment().format("LL");
 
   const handleChangeTime = (data: number) => {
@@ -47,21 +56,24 @@ export const Watch: React.FC = () => {
 
   return (
     <>
-      <div className={styles.clock}>
-        <div className={styles.hour}>
-          <div ref={hourRef} className={styles.hr} id='hr'></div>
-        </div>
+      <Box className={styles.box}>
+        <div className={styles.clock}>
+          <div className={styles.hour}>
+            <div ref={hourRef} className={styles.hr}></div>
+          </div>
 
-        <div className={styles.min}>
-          <div ref={minuteRef} className={styles.mn} id='mn'></div>
-        </div>
+          <div className={styles.min}>
+            <div ref={minuteRef} className={styles.mn}></div>
+          </div>
 
-        <div className={styles.sec}>
-          <div ref={secondRef} className={styles.sc} id='sc'></div>
+          <div className={styles.sec}>
+            <div ref={secondRef} className={styles.sc}></div>
+          </div>
         </div>
-      </div>
-      <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
-      <h2 style={{ color: "#1976d2" }}>{dateString}</h2>
+        <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
+        <h2 style={{ color: "#1976d2" }}>{timeZone}</h2>
+        <h2 style={{ color: "#1976d2" }}>{dateString}</h2>
+      </Box>
 
       <Box
         sx={{

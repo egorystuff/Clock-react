@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { AppContext } from "../../App";
 import { Box } from "@mui/material";
 
-export const WatchLeft: React.FC = () => {
+export const WatchRight: React.FC = () => {
   const { time, setTime } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
@@ -11,7 +11,7 @@ export const WatchLeft: React.FC = () => {
   const secondRef = useRef<HTMLDivElement | null>(null);
 
   const deg: number = 6;
-  let hh: number = time.getHours() * 30 + 30;
+  let hh: number = time.getHours() * 30 - 30;
   let mm: number = time.getMinutes() * deg;
   let ss: number = time.getSeconds() * deg;
   // Update the time every second
