@@ -10,28 +10,32 @@ import moment from "moment-timezone";
 import "moment/locale/ru";
 
 export const Watch: React.FC = () => {
-  const { time, setTime, addHour, setAddHour, zone, setZone } = useContext(AppContext);
-
-  // const date1 = new Date();
-  // console.log(date1);
-
-  // const allZone = moment.tz.names();
-  // console.log(allZone);
-
-  let momentOne = moment();
-
-  // momentOne.zone(180);
-  // console.log("Timezone Offset of MomentOne:", momentOne.zone());
-  console.log("MomentOne is:", momentOne);
+  const { time, setTime, addOffset, setAddOffset, zone, setZone } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLDivElement | null>(null);
 
   const deg: number = 6;
-  let hh: number = time.getHours() * 30 + addHour;
-  let mm: number = time.getMinutes() * deg;
-  let ss: number = time.getSeconds() * deg;
+
+  // let hh: number = moment.tz(zone).hour() * 30 + addOffset;
+  // let mm: number = moment.tz(zone).minute() * deg;
+  // let ss: number = moment.tz(zone).second() * deg;
+
+  let hh: number = moment.tz(zone).hour() * 30 + addOffset;
+  let mm: number = moment.tz(zone).minute() * deg;
+  let ss: number = moment.tz(zone).second() * deg;
+
+  //==============================================================================
+
+  let res = moment().utcOffset(180).format();
+  let res2 = moment().utcOffset(180).hour();
+  // res.format();
+
+  console.log(res);
+  console.log(res2);
+
+  //==============================================================================
 
   // Update the time every second
   useEffect(() => {
@@ -39,19 +43,19 @@ export const Watch: React.FC = () => {
       if (hourRef.current !== null) hourRef.current.style.transform = `rotateZ(${hh + mm / 12}deg)`;
       if (minuteRef.current !== null) minuteRef.current.style.transform = `rotateZ(${mm}deg)`;
       if (secondRef.current !== null) secondRef.current.style.transform = `rotateZ(${ss}deg)`;
-      setTime(new Date());
+      setTime(moment());
     }, 100);
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, [time]);
 
+  // const timeString: string = `${hh / 30}: ${mm / deg}: ${ss / deg}`;
   const timeString: string = moment().format("LTS");
-  const timeZone = moment.tz(time, zone).format();
   const dateString: string = moment().format("LL");
 
   const handleChangeTime = (data: number) => {
-    setAddHour(addHour + data);
+    setAddOffset(addOffset + data);
   };
 
   return (
@@ -71,7 +75,6 @@ export const Watch: React.FC = () => {
           </div>
         </div>
         <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
-        <h2 style={{ color: "#1976d2" }}>{timeZone}</h2>
         <h2 style={{ color: "#1976d2" }}>{dateString}</h2>
       </Box>
 
@@ -86,7 +89,7 @@ export const Watch: React.FC = () => {
         }}>
         <ButtonGroup size='large' variant='text' aria-label='text button group'>
           <Button onClick={() => handleChangeTime(30)}>+ Hour</Button>
-          <Button onClick={() => setAddHour(0)}>Origin</Button>
+          <Button onClick={() => setAddOffset(0)}>Origin</Button>
           <Button onClick={() => handleChangeTime(-30)}>- Hour</Button>
         </ButtonGroup>
       </Box>
