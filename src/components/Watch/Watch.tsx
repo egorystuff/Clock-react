@@ -10,7 +10,7 @@ import moment from "moment-timezone";
 import "moment/locale/ru";
 
 export const Watch: React.FC = () => {
-  const { time, setTime, offsetZone, setOffsetZone } = useContext(AppContext);
+  const { time, setTime, offsetZone, setOffsetZone, zone, setZone, sizeMap } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
@@ -37,11 +37,22 @@ export const Watch: React.FC = () => {
     return () => clearInterval(interval);
   }, [time]);
 
-  const timeString: string = time.utcOffset(offsetZone).format("k:mm:ss zZ");
+  const timeString: string = time.utcOffset(offsetZone).format("k:mm:ss");
   const dateString: string = time.utcOffset(offsetZone).format("dddd, MMMM Do YYYY");
 
-  const handleChangeTime = (data: number) => {
-    setOffsetZone(offsetZone + data);
+  const handleChangeTime = (utc: number, offset: number) => {
+    if (offsetZone < 12 && offsetZone > -11) {
+      setOffsetZone(offsetZone + utc);
+      setZone(zone + offset);
+    } else {
+      setOffsetZone(0);
+      setZone((sizeMap / 24) * 11);
+    }
+  };
+
+  const handleResetTime = (utc: number, offset: number) => {
+    setOffsetZone(utc);
+    setZone(offset);
   };
 
   return (
@@ -77,9 +88,9 @@ export const Watch: React.FC = () => {
           },
         }}>
         <ButtonGroup size='large' variant='text' aria-label='text button group'>
-          <Button onClick={() => handleChangeTime(1)}>+ Hour</Button>
-          <Button onClick={() => setOffsetZone(0)}>Origin</Button>
-          <Button onClick={() => handleChangeTime(-1)}>- Hour</Button>
+          <Button onClick={() => handleChangeTime(-1, -sizeMap / 24)}>- Utc</Button>
+          <Button onClick={() => handleResetTime(0, (sizeMap / 24) * 11)}>Greenwich Time</Button>
+          <Button onClick={() => handleChangeTime(1, sizeMap / 24)}>+ Utc</Button>
         </ButtonGroup>
       </Box>
     </>

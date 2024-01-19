@@ -8,16 +8,19 @@ import Container from "@mui/material/Container";
 import "./scss/app.scss";
 import { Home } from "./Pages/Home";
 
-export const AppContext = createContext<any>("");
+export const AppContext = createContext<any>(null);
+
+const sizeMap = 1280;
 
 function App() {
-  const [time, setTime] = useState(moment());
-  const [offsetZone, setOffsetZone] = useState<number>(3);
-  // const [zone, setZone] = useState<string>("Europe/Minsk");
+  const [time, setTime] = useState<moment.Moment>(moment());
+  const [offsetZone, setOffsetZone] = useState<number>(0);
+  const [zone, setZone] = useState<number>((sizeMap / 24) * 11);
+  // const [nameZone, setNameZone] = useState<string>("Minsk");
 
   return (
     <>
-      <AppContext.Provider value={{ time, setTime, offsetZone, setOffsetZone }}>
+      <AppContext.Provider value={{ time, setTime, offsetZone, setOffsetZone, zone, setZone, sizeMap }}>
         <Container sx={{ margin: "50px 0" }} maxWidth='xl'>
           <Routes>
             <Route path='/' element={<Home />} />
