@@ -14,17 +14,17 @@ export const Home: React.FC = () => {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={10}>
-          {/* <Grid item xs={4}>
+          <Grid item xs={4}>
             <WatchLeft />
-          </Grid> */}
+          </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={4}>
             <Watch />
           </Grid>
 
-          {/* <Grid item xs={4}>
+          <Grid item xs={4}>
             <WatchRight />
-          </Grid> */}
+          </Grid>
         </Grid>
 
         <WorldMap />

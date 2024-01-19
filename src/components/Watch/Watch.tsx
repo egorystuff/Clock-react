@@ -10,7 +10,7 @@ import moment from "moment-timezone";
 import "moment/locale/ru";
 
 export const Watch: React.FC = () => {
-  const { time, setTime, addOffset, setAddOffset, zone, setZone } = useContext(AppContext);
+  const { time, setTime, offsetZone, setOffsetZone } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
@@ -18,22 +18,9 @@ export const Watch: React.FC = () => {
 
   const deg: number = 6;
 
-  // let hh: number = moment.tz(zone).hour() * 30 + addOffset;
-  // let mm: number = moment.tz(zone).minute() * deg;
-  // let ss: number = moment.tz(zone).second() * deg;
-
-  let hh: number = moment.tz(zone).hour() * 30 + addOffset;
-  let mm: number = moment.tz(zone).minute() * deg;
-  let ss: number = moment.tz(zone).second() * deg;
-
-  //==============================================================================
-
-  let res = moment().utcOffset(180).format();
-  let res2 = moment().utcOffset(180).hour();
-  // res.format();
-
-  console.log(res);
-  console.log(res2);
+  let hh: number = time.utcOffset(offsetZone).hour() * 30;
+  let mm: number = time.utcOffset(offsetZone).minute() * deg;
+  let ss: number = time.utcOffset(offsetZone).second() * deg;
 
   //==============================================================================
 
@@ -50,12 +37,11 @@ export const Watch: React.FC = () => {
     return () => clearInterval(interval);
   }, [time]);
 
-  // const timeString: string = `${hh / 30}: ${mm / deg}: ${ss / deg}`;
-  const timeString: string = moment().format("LTS");
-  const dateString: string = moment().format("LL");
+  const timeString: string = time.utcOffset(offsetZone).format("k:mm:ss zZ");
+  const dateString: string = time.utcOffset(offsetZone).format("dddd, MMMM Do YYYY");
 
   const handleChangeTime = (data: number) => {
-    setAddOffset(addOffset + data);
+    setOffsetZone(offsetZone + data);
   };
 
   return (
@@ -74,6 +60,9 @@ export const Watch: React.FC = () => {
             <div ref={secondRef} className={styles.sc}></div>
           </div>
         </div>
+      </Box>
+
+      <Box sx={{ marginTop: "30px" }}>
         <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
         <h2 style={{ color: "#1976d2" }}>{dateString}</h2>
       </Box>
@@ -88,9 +77,9 @@ export const Watch: React.FC = () => {
           },
         }}>
         <ButtonGroup size='large' variant='text' aria-label='text button group'>
-          <Button onClick={() => handleChangeTime(30)}>+ Hour</Button>
-          <Button onClick={() => setAddOffset(0)}>Origin</Button>
-          <Button onClick={() => handleChangeTime(-30)}>- Hour</Button>
+          <Button onClick={() => handleChangeTime(1)}>+ Hour</Button>
+          <Button onClick={() => setOffsetZone(0)}>Origin</Button>
+          <Button onClick={() => handleChangeTime(-1)}>- Hour</Button>
         </ButtonGroup>
       </Box>
     </>
