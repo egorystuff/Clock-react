@@ -29,8 +29,6 @@ export const Home: React.FC = () => {
         </Grid>
 
         <WorldMap />
-
-        <Section />
       </Box>
     </>
   );
