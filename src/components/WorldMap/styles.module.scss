@@ -1,10 +1,11 @@
 .body {
-  margin-top: 100px;
+  margin-top: 50px;
   justify-content: center;
   align-items: center;
 }
 
 .map {
+  margin-top: 15px;
   width: 1280px;
   height: 640px;
   background: url(https://momentjs.com/static/img/world.png);
@@ -13,9 +14,10 @@
 
 .mapLine {
   position: relative;
-  height: 636px;
+  height: 686px;
   width: 51.2px;
-  background: rgb(25, 118, 210, 0.5);
+  top: -50px;
+  background: rgb(25, 118, 210, 0.3);
   transition: all ease-in-out 0.2s;
 }
 
@@ -28,4 +30,12 @@
   font-weight: 600;
   top: -50px;
   left: -25px;
+}
+
+.mapBtn {
+  width: 51.2px;
+  height: 35px;
+  min-width: 51.2px !important;
+  border-radius: 0 !important;
+  border-left: 2px solid rgb(25, 118, 210, 0.5) !important;
 }

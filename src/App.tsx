@@ -10,12 +10,12 @@ import { Home } from "./Pages/Home";
 
 export const AppContext = createContext<any>(null);
 
-const sizeMap = 1280;
+const sizeMap = 1280 / 25;
 
 function App() {
   const [time, setTime] = useState<moment.Moment>(moment());
   const [offsetZone, setOffsetZone] = useState<number>(0);
-  const [zone, setZone] = useState<number>((sizeMap / 25) * 12);
+  const [zone, setZone] = useState<number>(sizeMap * 12);
   // const [nameZone, setNameZone] = useState<string>("Minsk");
 
   return (

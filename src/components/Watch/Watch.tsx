@@ -8,11 +8,12 @@ import Box from "@mui/material/Box";
 import { AppContext } from "../../App";
 import moment from "moment-timezone";
 import "moment/locale/ru";
+import { Section } from "../Section/Section";
 
 const deg: number = 6;
 
 export const Watch: React.FC = () => {
-  const { time, setTime, offsetZone, setOffsetZone, zone, setZone, sizeMap } = useContext(AppContext);
+  const { time, setTime, offsetZone, setOffsetZone, setZone, sizeMap } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
@@ -22,7 +23,7 @@ export const Watch: React.FC = () => {
   let mm: number = time.utcOffset(offsetZone).minute() * deg;
   let ss: number = time.utcOffset(offsetZone).second() * deg;
 
-  //==============================================================================
+  //==================================================================================================
 
   // Update the time every second
   useEffect(() => {
@@ -39,14 +40,17 @@ export const Watch: React.FC = () => {
 
   const timeString: string = time.utcOffset(offsetZone).format("k:mm:ss");
   const dateString: string = time.utcOffset(offsetZone).format("dddd, MMMM Do YYYY");
+  const zoneString: string = time.utcOffset(offsetZone).format("zZ");
+
+  //==================================================================================================
 
   const handleChangeTime = (utc: number, offset: number): void => {
     if (offsetZone < 12 && offsetZone > -12) {
       setOffsetZone(offsetZone + utc);
-      setZone(zone + offset);
+      setZone(sizeMap * (12 + (offsetZone + utc)));
     } else {
-      setOffsetZone(0);
-      setZone((sizeMap / 24) * 12);
+      // setOffsetZone(0);
+      // setZone(sizeMap * 12);
     }
   };
 
@@ -54,6 +58,8 @@ export const Watch: React.FC = () => {
     setOffsetZone(utc);
     setZone(offset);
   };
+
+  //==================================================================================================
 
   return (
     <>
@@ -71,10 +77,13 @@ export const Watch: React.FC = () => {
             <div ref={secondRef} className={styles.sc}></div>
           </div>
         </div>
+
+        <Section />
       </Box>
 
       <Box sx={{ marginTop: "30px" }}>
         <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
+        <h2 style={{ color: "#1976d2" }}>{zoneString}</h2>
         <h2 style={{ color: "#1976d2" }}>{dateString}</h2>
       </Box>
 
@@ -88,9 +97,9 @@ export const Watch: React.FC = () => {
           },
         }}>
         <ButtonGroup size='large' variant='text' aria-label='text button group'>
-          <Button onClick={() => handleChangeTime(-1, -sizeMap / 25)}>- Utc</Button>
-          <Button onClick={() => handleResetTime(0, (sizeMap / 25) * 12)}>Greenwich Time</Button>
-          <Button onClick={() => handleChangeTime(1, sizeMap / 25)}>+ Utc</Button>
+          <Button onClick={() => handleChangeTime(-1, -1)}>- Utc</Button>
+          <Button onClick={() => handleResetTime(0, sizeMap * 12)}>Greenwich Time</Button>
+          <Button onClick={() => handleChangeTime(1, 1)}>+ Utc</Button>
         </ButtonGroup>
       </Box>
     </>
