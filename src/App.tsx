@@ -15,7 +15,7 @@ const sizeMap = 1280;
 function App() {
   const [time, setTime] = useState<moment.Moment>(moment());
   const [offsetZone, setOffsetZone] = useState<number>(0);
-  const [zone, setZone] = useState<number>((sizeMap / 24) * 11);
+  const [zone, setZone] = useState<number>((sizeMap / 25) * 12);
   // const [nameZone, setNameZone] = useState<string>("Minsk");
 
   return (

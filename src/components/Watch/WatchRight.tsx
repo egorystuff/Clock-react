@@ -7,14 +7,14 @@ import { AppContext } from "../../App";
 import moment from "moment-timezone";
 import "moment/locale/ru";
 
+const deg: number = 6;
+
 export const WatchRight: React.FC = () => {
   const { time, setTime } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLDivElement | null>(null);
-
-  const deg: number = 6;
 
   let hh: number = time.utcOffset(2).hour() * 30;
   let mm: number = time.minute() * deg;

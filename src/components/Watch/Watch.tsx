@@ -9,14 +9,14 @@ import { AppContext } from "../../App";
 import moment from "moment-timezone";
 import "moment/locale/ru";
 
+const deg: number = 6;
+
 export const Watch: React.FC = () => {
   const { time, setTime, offsetZone, setOffsetZone, zone, setZone, sizeMap } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLDivElement | null>(null);
-
-  const deg: number = 6;
 
   let hh: number = time.utcOffset(offsetZone).hour() * 30;
   let mm: number = time.utcOffset(offsetZone).minute() * deg;
@@ -40,17 +40,17 @@ export const Watch: React.FC = () => {
   const timeString: string = time.utcOffset(offsetZone).format("k:mm:ss");
   const dateString: string = time.utcOffset(offsetZone).format("dddd, MMMM Do YYYY");
 
-  const handleChangeTime = (utc: number, offset: number) => {
-    if (offsetZone < 12 && offsetZone > -11) {
+  const handleChangeTime = (utc: number, offset: number): void => {
+    if (offsetZone < 12 && offsetZone > -12) {
       setOffsetZone(offsetZone + utc);
       setZone(zone + offset);
     } else {
       setOffsetZone(0);
-      setZone((sizeMap / 24) * 11);
+      setZone((sizeMap / 24) * 12);
     }
   };
 
-  const handleResetTime = (utc: number, offset: number) => {
+  const handleResetTime = (utc: number, offset: number): void => {
     setOffsetZone(utc);
     setZone(offset);
   };
@@ -88,9 +88,9 @@ export const Watch: React.FC = () => {
           },
         }}>
         <ButtonGroup size='large' variant='text' aria-label='text button group'>
-          <Button onClick={() => handleChangeTime(-1, -sizeMap / 24)}>- Utc</Button>
-          <Button onClick={() => handleResetTime(0, (sizeMap / 24) * 11)}>Greenwich Time</Button>
-          <Button onClick={() => handleChangeTime(1, sizeMap / 24)}>+ Utc</Button>
+          <Button onClick={() => handleChangeTime(-1, -sizeMap / 25)}>- Utc</Button>
+          <Button onClick={() => handleResetTime(0, (sizeMap / 25) * 12)}>Greenwich Time</Button>
+          <Button onClick={() => handleChangeTime(1, sizeMap / 25)}>+ Utc</Button>
         </ButtonGroup>
       </Box>
     </>
