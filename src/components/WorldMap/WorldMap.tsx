@@ -20,7 +20,7 @@ export const WorldMap = () => {
     <div className={styles.body}>
       {hourArr.map((number, index) => {
         return (
-          <Button onClick={btnClick} value={number} className={styles.mapBtn}>
+          <Button key={index} onClick={btnClick} value={number} className={styles.mapBtn}>
             {number}
           </Button>
         );

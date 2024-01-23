@@ -8,7 +8,6 @@ import { Watch } from "../components/Watch/Watch";
 import { WorldMap } from "../components/WorldMap/WorldMap";
 import { WatchLeft } from "../components/Watch/WatchLeft";
 import { WatchRight } from "../components/Watch/WatchRight";
-import { Section } from "../components/Section/Section";
 
 export const Home: React.FC = () => {
   return (
