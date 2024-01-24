@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
-
-import styles from "./styles.module.scss";
 import { AppContext } from "../../App";
 
-export const Section = () => {
-  const { setOffsetZone } = useContext(AppContext);
+import styles from "./styles.module.scss";
+
+export const Section: React.FC = () => {
+  const { setOffsetZone, time, setZone, offsetZone, sizeMap } = useContext(AppContext);
 
   const handleClick = (click: any): void => {
-    // setOffsetZone(Number(click.target.id));
-    console.log(click.target.id);
+    let hours = time.utcOffset(offsetZone).hour() - 12;
+    let data = hours - Number(click.target.id);
+    let res = offsetZone - data;
+    setOffsetZone(res);
+    setZone(sizeMap * (12 + res));
   };
 
   return (

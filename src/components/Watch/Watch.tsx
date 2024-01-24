@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useRef } from "react";
-import styles from "./styles.module.scss";
+import { AppContext } from "../../App";
 
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
-
-import { AppContext } from "../../App";
 import moment from "moment-timezone";
 import "moment/locale/ru";
+
+import styles from "./styles.module.scss";
 import { Section } from "../Section/Section";
 
 const deg: number = 6;
+const arr = moment.tz.names();
+console.log(arr);
 
 export const Watch: React.FC = () => {
   const { time, setTime, offsetZone, setOffsetZone, setZone, sizeMap } = useContext(AppContext);
@@ -81,7 +83,7 @@ export const Watch: React.FC = () => {
         <Section />
       </Box>
 
-      <Box sx={{ marginTop: "30px" }}>
+      <Box sx={{ marginTop: "40px" }}>
         <h2 style={{ color: "#1976d2" }}>{timeString}</h2>
         <h2 style={{ color: "#1976d2" }}>{zoneString}</h2>
         <h2 style={{ color: "#1976d2" }}>{dateString}</h2>

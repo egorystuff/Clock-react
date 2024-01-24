@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  margin-top: 40px;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  font-size: 20px;
+  font-weight: 600;
+  height: 50px;
+
+  color: rgb(25, 118, 210);
+  justify-content: center;
+  align-items: center;
+}

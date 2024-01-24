@@ -8,11 +8,14 @@ import { Watch } from "../components/Watch/Watch";
 import { WorldMap } from "../components/WorldMap/WorldMap";
 import { WatchLeft } from "../components/Watch/WatchLeft";
 import { WatchRight } from "../components/Watch/WatchRight";
+import { Header } from "../components/Header/Header";
 
 export const Home: React.FC = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
+        <Header />
+
         <Grid container spacing={10}>
           <Grid item xs={4}>
             <WatchLeft />

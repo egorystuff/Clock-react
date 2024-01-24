@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef } from "react";
-import styles from "./styles.module.scss";
+import { AppContext } from "../../App";
 
 import Box from "@mui/material/Box";
-
-import { AppContext } from "../../App";
 import moment from "moment-timezone";
 import "moment/locale/ru";
+
+import styles from "./styles.module.scss";
 
 const deg: number = 6;
 
