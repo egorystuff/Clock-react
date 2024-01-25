@@ -11,8 +11,6 @@ import styles from "./styles.module.scss";
 import { Section } from "../Section/Section";
 
 const deg: number = 6;
-const arr = moment.tz.names();
-console.log(arr);
 
 export const Watch: React.FC = () => {
   const { time, setTime, offsetZone, setOffsetZone, setZone, sizeMap } = useContext(AppContext);

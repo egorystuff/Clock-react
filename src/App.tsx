@@ -16,11 +16,12 @@ function App() {
   const [time, setTime] = useState<moment.Moment>(moment());
   const [offsetZone, setOffsetZone] = useState<number>(0);
   const [zone, setZone] = useState<number>(sizeMap * 12);
-  // const [nameZone, setNameZone] = useState<string>("Minsk");
+  const [search, setSearch] = useState("");
 
   return (
     <>
-      <AppContext.Provider value={{ time, setTime, offsetZone, setOffsetZone, zone, setZone, sizeMap }}>
+      <AppContext.Provider
+        value={{ time, setTime, offsetZone, setOffsetZone, zone, setZone, sizeMap, search, setSearch }}>
         <Container sx={{ margin: "50px 0" }} maxWidth='xl'>
           <Routes>
             <Route path='/' element={<Home />} />

@@ -1,9 +1,5 @@
-.container {
-  display: flex;
+.root {
   margin-top: 40px;
-
-  justify-content: center;
-  align-items: center;
 }
 
 .text {
@@ -15,4 +11,51 @@
   color: rgb(25, 118, 210);
   justify-content: center;
   align-items: center;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+}
+
+.search {
+  font-size: 20px;
+  height: 40px;
+  width: 300px;
+  margin: auto;
+  color: rgb(25, 118, 210);
+
+  border: 2px solid rgb(25, 118, 210, 0.4);
+  border-radius: 5px;
+  padding: 5px 35px 5px 35px;
+  background-color: transparent;
+  transition: all 0.15s ease-in-out;
+
+  &:focus {
+    border: 2px solid rgb(25, 118, 210, 0.8);
+  }
+}
+
+.iconSearch {
+  top: 8px;
+  margin-left: 8px;
+  position: absolute;
+  color: rgb(25, 118, 210, 0.4);
+  height: 25px;
+  width: 25px;
+}
+
+.clearIcon {
+  top: 8px;
+  margin-left: 8px;
+  position: absolute;
+  color: rgb(25, 118, 210, 0.4);
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: rgb(25, 118, 210, 0.8);
+  }
 }

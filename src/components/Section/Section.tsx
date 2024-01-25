@@ -18,7 +18,7 @@ export const Section: React.FC = () => {
     <>
       <div className={styles.clock}>
         <div onClick={handleClick}>
-          <svg viewBox='0 0 110 110'>
+          <svg className={styles.svgIcon} viewBox='0 0 110 110'>
             <path
               id='0'
               className={styles.sector}
