@@ -29,7 +29,7 @@ export const WatchRight: React.FC = () => {
       if (minuteRef.current !== null) minuteRef.current.style.transform = `rotateZ(${mm}deg)`;
       if (secondRef.current !== null) secondRef.current.style.transform = `rotateZ(${ss}deg)`;
       setTime(moment());
-    }, 100);
+    }, 200);
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);

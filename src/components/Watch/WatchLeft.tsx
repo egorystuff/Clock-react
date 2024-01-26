@@ -6,18 +6,18 @@ import moment from "moment-timezone";
 import "moment/locale/ru";
 
 import styles from "./styles.module.scss";
-import { Search } from "../Search/Search";
+import { SelectCity } from "../SelectCity/SelectCity";
 
 const deg: number = 6;
 
 export const WatchLeft: React.FC = () => {
-  const { time, setTime } = useContext(AppContext);
+  const { time, city, setTime } = useContext(AppContext);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLDivElement | null>(null);
 
-  let hh: number = time.utcOffset(4).hour() * 30;
+  let hh: number = time.utcOffset(city).hour() * 30;
   let mm: number = time.minute() * deg;
   let ss: number = time.second() * deg;
 
@@ -30,7 +30,7 @@ export const WatchLeft: React.FC = () => {
       if (minuteRef.current !== null) minuteRef.current.style.transform = `rotateZ(${mm}deg)`;
       if (secondRef.current !== null) secondRef.current.style.transform = `rotateZ(${ss}deg)`;
       setTime(moment());
-    }, 100);
+    }, 200);
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
@@ -54,7 +54,7 @@ export const WatchLeft: React.FC = () => {
         </div>
       </Box>
 
-      <Search />
+      <SelectCity />
     </>
   );
 };
