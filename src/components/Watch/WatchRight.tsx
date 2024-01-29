@@ -1,16 +1,19 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { AppContext } from "../../App";
+import React, { useEffect, useRef } from "react";
 
 import Box from "@mui/material/Box";
 import moment from "moment-timezone";
 import "moment/locale/ru";
 
 import styles from "./styles.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { setTime } from "../../redux/slices/timeSlice";
 
 const deg: number = 6;
 
 export const WatchRight: React.FC = () => {
-  const { time, setTime } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const time = useSelector((state: RootState) => state.timeSlice.time);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +31,7 @@ export const WatchRight: React.FC = () => {
       if (hourRef.current !== null) hourRef.current.style.transform = `rotateZ(${hh + mm / 12}deg)`;
       if (minuteRef.current !== null) minuteRef.current.style.transform = `rotateZ(${mm}deg)`;
       if (secondRef.current !== null) secondRef.current.style.transform = `rotateZ(${ss}deg)`;
-      setTime(moment());
+      dispatch(setTime(moment()));
     }, 200);
 
     // Clear the interval when the component unmounts

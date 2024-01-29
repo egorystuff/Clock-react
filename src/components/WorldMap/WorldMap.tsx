@@ -1,20 +1,23 @@
-import React, { useContext } from "react";
-import { AppContext } from "../../App";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@mui/material/Button";
 
 import styles from "./styles.module.scss";
+import { setOffsetZone, setZone, sizeMap } from "../../redux/slices/zoneSlice";
+import { RootState } from "../../redux/store";
 
 const hourArr = [-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 export const WorldMap = () => {
-  const { zone, setOffsetZone, setZone, sizeMap } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const zone = useSelector((state: RootState) => state.zoneSlice.zone);
 
   const btnClick = (event: any): void => {
     const data = Number(event.target.value);
 
-    setOffsetZone(data);
-    setZone(sizeMap * (12 + data));
+    dispatch(setOffsetZone(data));
+    dispatch(setZone(sizeMap * (12 + data)));
   };
 
   return (

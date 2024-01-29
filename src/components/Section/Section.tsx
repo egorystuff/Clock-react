@@ -1,17 +1,21 @@
-import React, { useContext } from "react";
-import { AppContext } from "../../App";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./styles.module.scss";
+import { RootState } from "../../redux/store";
+import { setOffsetZone, setZone, sizeMap } from "../../redux/slices/zoneSlice";
 
 export const Section: React.FC = () => {
-  const { setOffsetZone, time, setZone, offsetZone, sizeMap } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const offsetZone = useSelector((state: RootState) => state.zoneSlice.offsetZone);
+  const time = useSelector((state: RootState) => state.timeSlice.time);
 
   const handleClick = (click: any): void => {
     let hours = time.utcOffset(offsetZone).hour() - 12;
     let data = hours - Number(click.target.id);
     let res = offsetZone - data;
-    setOffsetZone(res);
-    setZone(sizeMap * (12 + res));
+    dispatch(setOffsetZone(res));
+    dispatch(setZone(sizeMap * (12 + res)));
   };
 
   return (

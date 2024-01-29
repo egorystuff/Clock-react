@@ -12,7 +12,9 @@ root.render(
   <>
     <CssBaseline />
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </>,
 );

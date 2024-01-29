@@ -1,19 +1,22 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { AppContext } from "../../App";
+import React, { useEffect, useRef } from "react";
+import type { RootState } from "../../redux/store";
+import { useSelector, useDispatch } from "react-redux";
 
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
-import moment from "moment-timezone";
 import "moment/locale/ru";
 
 import styles from "./styles.module.scss";
 import { Section } from "../Section/Section";
+import { setOffsetZone, setZone, sizeMap } from "../../redux/slices/zoneSlice";
 
 const deg: number = 6;
 
 export const Watch: React.FC = () => {
-  const { time, setTime, offsetZone, setOffsetZone, setZone, sizeMap } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const offsetZone = useSelector((state: RootState) => state.zoneSlice.offsetZone);
+  const time = useSelector((state: RootState) => state.timeSlice.time);
 
   const hourRef = useRef<HTMLDivElement | null>(null);
   const minuteRef = useRef<HTMLDivElement | null>(null);
@@ -31,7 +34,6 @@ export const Watch: React.FC = () => {
       if (hourRef.current !== null) hourRef.current.style.transform = `rotateZ(${hh + mm / 12}deg)`;
       if (minuteRef.current !== null) minuteRef.current.style.transform = `rotateZ(${mm}deg)`;
       if (secondRef.current !== null) secondRef.current.style.transform = `rotateZ(${ss}deg)`;
-      setTime(moment());
     }, 200);
 
     // Clear the interval when the component unmounts
@@ -46,8 +48,8 @@ export const Watch: React.FC = () => {
 
   const handleChangeTime = (utc: number, offset: number): void => {
     if (offsetZone < 12 && offsetZone > -12) {
-      setOffsetZone(offsetZone + utc);
-      setZone(sizeMap * (12 + (offsetZone + utc)));
+      dispatch(setOffsetZone(offsetZone + utc));
+      dispatch(setZone(sizeMap * (12 + (offsetZone + utc))));
     } else {
       // setOffsetZone(0);
       // setZone(sizeMap * 12);
@@ -55,8 +57,8 @@ export const Watch: React.FC = () => {
   };
 
   const handleResetTime = (utc: number, offset: number): void => {
-    setOffsetZone(utc);
-    setZone(offset);
+    dispatch(setOffsetZone(utc));
+    dispatch(setZone(offset));
   };
 
   //==================================================================================================

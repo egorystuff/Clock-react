@@ -1,16 +1,25 @@
 import React, { useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import styles from "./styles.module.scss";
-import { AppContext } from "../../App";
+import { RootState } from "../../redux/store";
+import { setCity } from "../../redux/slices/citySlice";
 
 export const SelectCity: React.FC = () => {
-  const { city, setCity } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const city = useSelector((state: RootState) => state.citySlice.city);
 
-  const selectList = [
+  type cityType = {
+    name: string;
+    value: number;
+  };
+
+  const selectList: cityType[] = [
     { name: "Минск", value: 3 },
     { name: "Варшава", value: 2 },
     { name: "Лондон", value: 0 },
@@ -22,14 +31,14 @@ export const SelectCity: React.FC = () => {
   ];
 
   const handleChange = (event: SelectChangeEvent): void => {
-    setCity(event.target.value as string);
+    dispatch(setCity(event.target.value as string));
   };
 
   return (
     <div className={styles.root}>
       <FormControl className={styles.form}>
         <InputLabel>City</InputLabel>
-        <Select value={city} label='City' onChange={handleChange}>
+        <Select value={String(city)} label='City' onChange={handleChange}>
           {selectList.map((obj, index) => {
             return (
               <MenuItem key={index} value={obj.value}>
