@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import moment from "moment-timezone";
 import "moment/locale/ru";
 
@@ -14,7 +14,7 @@ export const timeSlice = createSlice({
   name: "time",
   initialState,
   reducers: {
-    setTime: (state, action) => {
+    setTime: (state, action: PayloadAction<moment.Moment>): void => {
       state.time = action.payload;
     },
   },

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export const sizeMap: number = 1280 / 25;
 
@@ -16,10 +16,10 @@ export const zoneSlice = createSlice({
   name: "zone",
   initialState,
   reducers: {
-    setOffsetZone: (state, action) => {
+    setOffsetZone: (state, action: PayloadAction<number>): void => {
       state.offsetZone = action.payload;
     },
-    setZone: (state, action) => {
+    setZone: (state, action: PayloadAction<number>): void => {
       state.zone = action.payload;
     },
   },
